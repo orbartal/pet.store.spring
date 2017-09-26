@@ -12,7 +12,18 @@
 	
 	<dependencies>
 	
-        <!-- -spring boot web -->
+		<!--start pet.store.spring -->
+		
+		<dependency>
+            <groupId>orbartal</groupId>
+            <artifactId>pet.store.spring.internal</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <!--end pet.store.spring -->
+	
+        <!-- start spring boot web -->
+        
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -24,11 +35,14 @@
         </dependency>
 
 		<!-- -springfox -->
+		
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-swagger2</artifactId>
 		    <version>2.7.0</version>
 		</dependency>
+		
+		<!-- end spring boot web -->
 		
 	</dependencies>
 

@@ -11,17 +11,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import pet.store.spring.web.pet.api.uses.interfaces.PetsWebAdapterI;
+import pet.store.spring.web.pet.api.uses.interfaces.PetsWebServiceI;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 
 @RestController
 @RequestMapping("/pet")
 public class PetsControllerC {
 	
-	protected PetsWebAdapterI m_petsWebAdapter;
+	protected PetsWebServiceI m_petsWebService;
 	
-	public PetsControllerC(PetsWebAdapterI petsWebAdapter) {
-		m_petsWebAdapter = petsWebAdapter;
+	public PetsControllerC(PetsWebServiceI petsWebAdapter) {
+		m_petsWebService = petsWebAdapter;
 	}
 	
 	@ApiOperation(value = "Find pet by ID")
@@ -34,7 +34,7 @@ public class PetsControllerC {
 	public PetUiEntityI read(
 			@ApiParam(value = "ID of pet to return", required = true) @PathVariable int id
 			) throws Exception {
-	return m_petsWebAdapter.read(id);
+		return m_petsWebService.read(id);
 	}
 	 
 	@ApiOperation(value = "Add a new pet to the store")
@@ -47,7 +47,7 @@ public class PetsControllerC {
 			@ApiParam(value = "Pet object that needs to be added to the store", required = true) 
 			@RequestBody PetUiEntityI pet
 			) throws Exception {
-		m_petsWebAdapter.create(pet);
+		m_petsWebService.create(pet);
 	}
 	
 	@ApiOperation(value = "Deletes a pet")
@@ -60,7 +60,7 @@ public class PetsControllerC {
 	public void delete(
 			@ApiParam(value = "Pet id to delete", required = true) @PathVariable int id
 			) throws Exception {
-		m_petsWebAdapter.delete(id);
+		m_petsWebService.delete(id);
 	}
 	
 }

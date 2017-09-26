@@ -12,11 +12,21 @@
 	
 	<dependencies>
 	
+		<!--start pet.store.spring -->
+		
+		<dependency>
+            <groupId>orbartal</groupId>
+            <artifactId>pet.store.spring.internal</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+	
 		<dependency>
             <groupId>orbartal</groupId>
             <artifactId>pet.store.spring.web.swagger</artifactId>
             <version>1.0.0</version>
         </dependency>
+        
+        <!--end pet.store.spring -->
         
         <dependency>
             <groupId>orbartal</groupId>
