@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>pet.store.spring.web.swagger</module>
+		<module>pet.store.spring.web.pet</module>
 		<module>pet.store.spring.main</module>
 	</modules>
 	

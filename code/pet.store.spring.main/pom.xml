@@ -17,6 +17,12 @@
             <artifactId>pet.store.spring.web.swagger</artifactId>
             <version>1.0.0</version>
         </dependency>
+        
+        <dependency>
+            <groupId>orbartal</groupId>
+            <artifactId>pet.store.spring.web.pet</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
 	</dependencies>
 		
