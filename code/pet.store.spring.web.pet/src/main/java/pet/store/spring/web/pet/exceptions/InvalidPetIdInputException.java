@@ -8,8 +8,9 @@ public class InvalidPetIdInputException extends Exception {
 	private static final long serialVersionUID = 1L;
 	protected String m_id;
 	
-	public InvalidPetIdInputException(String id1) {
-		m_id = id1;
+	public InvalidPetIdInputException(String id, Exception e) {
+		super (e);
+		m_id = id;
 	}
 
 	public String getId() {

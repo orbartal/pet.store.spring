@@ -1,6 +1,6 @@
 package pet.store.spring.web.pet.services.classes;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pet.store.spring.internal.model.interfaces.PetLogicEntityI;
 import pet.store.spring.internal.services.interfaces.PetsLogicServiceI;
 import pet.store.spring.web.pet.converters.interfaces.ConversionWebServiceI;
@@ -10,7 +10,7 @@ import pet.store.spring.web.pet.exceptions.PetNotFoundException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
-@Component
+@Service("PetsWebServiceC")
 public class PetsWebServiceC implements PetsWebServiceI {
 
 	protected PetsLogicServiceI m_petsLogicService;
@@ -20,7 +20,7 @@ public class PetsWebServiceC implements PetsWebServiceI {
 		m_petsLogicService = petsLogicService;
 		m_conversionWebService = conversionWebService;
 	}
-
+	
 	@Override
 	public void create (PetUiEntityI uiPet) throws Exception {
 		try {
@@ -32,11 +32,9 @@ public class PetsWebServiceC implements PetsWebServiceI {
 	}
 
 	@Override
-	public PetUiEntityI read (int id) throws Exception {
-		if (id<0) {
-			throw new InvalidPetIdInputException (id+"");
-		}
-		PetLogicEntityI logicPet = m_petsLogicService.read(id);
+	public PetUiEntityI read (String strId) throws Exception {
+		int nId = parseId(strId);
+		PetLogicEntityI logicPet = m_petsLogicService.read(nId);
 		PetUiEntityI uiPet = m_conversionWebService.convert(logicPet, PetUiEntityI.class);
 		if (uiPet==null) {
 			throw new PetNotFoundException("uiPet==null");
@@ -44,12 +42,22 @@ public class PetsWebServiceC implements PetsWebServiceI {
 		return uiPet;
 	}
 
-	@Override
-	public void delete (int id) throws Exception {
-		if (id<0) {
-			throw new InvalidPetIdInputException (id+"");
+	protected int parseId(String strId) throws InvalidPetIdInputException {
+		try {
+			int nId = Integer.parseInt(strId);
+			if (nId<0) {
+				throw new Exception ("id<0");
+			}
+			return nId;
+		}catch(Exception e) {
+			throw new InvalidPetIdInputException (strId, e);
 		}
-		m_petsLogicService.delete(id);
+	}
+
+	@Override
+	public void delete (String strId) throws Exception {
+		int nId =  parseId(strId);
+		m_petsLogicService.delete(nId);
 	}
 
 }
