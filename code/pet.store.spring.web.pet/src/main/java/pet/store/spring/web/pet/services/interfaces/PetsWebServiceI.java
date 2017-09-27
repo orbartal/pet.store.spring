@@ -1,4 +1,4 @@
-package pet.store.spring.web.pet.api.uses.interfaces;
+package pet.store.spring.web.pet.services.interfaces;
 
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 

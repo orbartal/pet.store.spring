@@ -26,13 +26,33 @@
             <version>1.0.0</version>
         </dependency>
         
-        <!--end pet.store.spring -->
-        
         <dependency>
             <groupId>orbartal</groupId>
             <artifactId>pet.store.spring.web.pet</artifactId>
             <version>1.0.0</version>
         </dependency>
+        
+        <dependency>
+            <groupId>orbartal</groupId>
+            <artifactId>pet.store.spring.dao</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <!--end pet.store.spring -->
+<!-- 
+        <dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+ -->
+
+		<!-- H2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 	</dependencies>
 		

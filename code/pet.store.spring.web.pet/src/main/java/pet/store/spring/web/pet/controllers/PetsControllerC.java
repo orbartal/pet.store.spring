@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import pet.store.spring.web.pet.api.uses.interfaces.PetsWebServiceI;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
+import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
 @RestController
 @RequestMapping("/pet")
