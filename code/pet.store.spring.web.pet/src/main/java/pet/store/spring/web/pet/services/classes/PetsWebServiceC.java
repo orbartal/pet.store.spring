@@ -34,14 +34,26 @@ public class PetsWebServiceC implements PetsWebServiceI {
 	@Override
 	public PetUiEntityI read (String strId) throws Exception {
 		int nId = parseId(strId);
-		PetLogicEntityI logicPet = m_petsLogicService.read(nId);
-		PetUiEntityI uiPet = m_conversionWebService.convert(logicPet, PetUiEntityI.class);
-		if (uiPet==null) {
-			throw new PetNotFoundException("uiPet==null");
+		try {
+			PetLogicEntityI logicPet = m_petsLogicService.read(nId);
+			PetUiEntityI uiPet = m_conversionWebService.convert(logicPet, PetUiEntityI.class);
+			uiPet.toString();
+			return uiPet;
+		}catch (Exception e) {
+			throw new PetNotFoundException(e);
 		}
-		return uiPet;
 	}
 
+	@Override
+	public void delete (String strId) throws Exception {
+		int nId =  parseId(strId);
+		try {
+			m_petsLogicService.delete(nId);
+		}catch (Exception e) {
+			throw new PetNotFoundException (e);
+		}
+	}
+	
 	protected int parseId(String strId) throws InvalidPetIdInputException {
 		try {
 			int nId = Integer.parseInt(strId);
@@ -53,11 +65,4 @@ public class PetsWebServiceC implements PetsWebServiceI {
 			throw new InvalidPetIdInputException (strId, e);
 		}
 	}
-
-	@Override
-	public void delete (String strId) throws Exception {
-		int nId =  parseId(strId);
-		m_petsLogicService.delete(nId);
-	}
-
 }

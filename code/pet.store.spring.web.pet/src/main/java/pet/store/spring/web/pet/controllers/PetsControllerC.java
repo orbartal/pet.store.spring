@@ -1,10 +1,16 @@
 package pet.store.spring.web.pet.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -62,4 +68,14 @@ public class PetsControllerC {
 		m_petsWebService.delete(id);
 	}
 	
+	///////////////////////////////////////////////////////////////////////
+	// Handle spring exception on convert json in request to pet object //
+	/////////////////////////////////////////////////////////////////////
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
+	public void handleMessageNotReadableException(HttpServletRequest request, MethodArgumentTypeMismatchException e) {}
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
+	public void handleHttpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException e) {}
 }
