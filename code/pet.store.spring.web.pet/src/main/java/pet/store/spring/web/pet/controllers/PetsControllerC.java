@@ -3,6 +3,7 @@ package pet.store.spring.web.pet.controllers;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import pet.store.spring.web.pet.exceptions.InvalidPetIdInputException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
+@CrossOrigin //TODO: remove
 @RestController
 @RequestMapping("/pet")
 public class PetsControllerC {
@@ -55,7 +57,7 @@ public class PetsControllerC {
 		m_petsWebService.create(pet);
 	}
 	
-	@ApiOperation(value = "Deletes a pet")
+	@ApiOperation(value = "Delete a pet")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Successful operation"),
        	@ApiResponse(code = 400, message = "Invalid ID supplied", response = InvalidPetIdInputException.class),

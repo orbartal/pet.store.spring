@@ -27,7 +27,7 @@ public class SpringSwaggerConfigC {
 		Docket docket = new Docket(DocumentationType.SWAGGER_2);
 		docket.apiInfo(getApiInfo());
 		docket.useDefaultResponseMessages(false);
-		//docket.globalOperationParameters(getParameters());
+		docket.globalOperationParameters(getParameters());
 		ApiSelectorBuilder asb = getBuilder(docket);
 		docket =  asb.build();
 		return docket;

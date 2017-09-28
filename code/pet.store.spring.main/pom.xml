@@ -38,6 +38,12 @@
             <version>1.0.0</version>
         </dependency>
         
+        <dependency>
+            <groupId>orbartal</groupId>
+            <artifactId>pet.store.spring.web.security</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
         <!--end pet.store.spring -->
 <!-- 
         <dependency>
