@@ -24,7 +24,7 @@ public 	class SecurityTokenControllerC {
 	}
 
 	@ApiOperation(value = "Get a security token based on user name and password")
-	@RequestMapping(method = RequestMethod.GET, value = "password/{username}/{password}", produces =  MediaType.TEXT_PLAIN_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "password/{username}/{password}") //, produces =  MediaType.TEXT_PLAIN_VALUE
 	public String get(	@ApiParam(value = "User name", required = true) @PathVariable  String username, 
 						@ApiParam(value = "User password", required = true) @PathVariable  String password) throws Exception {
 		UsernamePasswordAuthenticationToken auth = 
