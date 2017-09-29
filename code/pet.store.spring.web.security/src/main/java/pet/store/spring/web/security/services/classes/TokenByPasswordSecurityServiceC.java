@@ -1,6 +1,6 @@
 package pet.store.spring.web.security.services.classes;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +24,6 @@ public class TokenByPasswordSecurityServiceC implements TokenByPasswordSecurityS
 		return auth;
 	}
 	
-	protected Authentication mapToAuth(Map<String, String> map) {
-		GrantedAuthority roleAdmin = new SimpleGrantedAuthority("admin");
-		List<GrantedAuthority> lstAuth = new ArrayList<>();
-	    lstAuth.add(roleAdmin);
-		Authentication auth = new UsernamePasswordAuthenticationToken ("admin", "pass", lstAuth);
-		return auth;
-	}
-
 	protected Map<String, String> stringToMap(String strToken) {
 		Gson gson = new GsonBuilder().create();
 		java.lang.reflect.Type typeOfHashMap = 
@@ -39,14 +31,33 @@ public class TokenByPasswordSecurityServiceC implements TokenByPasswordSecurityS
 		Map<String, String> map = gson.fromJson(strToken, typeOfHashMap);
 		return map;
 	}
+	
+	protected Authentication mapToAuth(Map<String, String> map) {
+		String name = map.get("name");
+		String role = map.get("role");
+		String credentials = map.get("credentials");
+		List<GrantedAuthority> lstAuth = Arrays.asList(new SimpleGrantedAuthority(role));
+		Authentication auth = new UsernamePasswordAuthenticationToken (name, credentials, lstAuth);
+		return auth;
+	}
 
 	@Override
 	public String getToken(UsernamePasswordAuthenticationToken auth) throws Exception {
-		Map<String, String> mapUserData = new HashMap<>();
-		mapUserData.put("name", auth.getName());
-		mapUserData.put("role", "admin"); //TODO: validate password and check server
+		Map<String, String> mapUserData = authToMap (auth); 
 		Gson gson = new GsonBuilder().create();
 		String strJson = gson.toJson(mapUserData);
 		return strJson;
+	}
+
+	protected Map<String, String> authToMap(UsernamePasswordAuthenticationToken auth) {
+		Map<String, String> mapUserData =  new HashMap<>();
+		mapUserData.put("credentials", (String)auth.getCredentials());
+		mapUserData.put("name", auth.getName());
+		if ("admin".equalsIgnoreCase(auth.getName())) {
+			mapUserData.put("role", "admin"); 
+		}else {
+			mapUserData.put("role", "limited");
+		}
+		return mapUserData;
 	}
 }

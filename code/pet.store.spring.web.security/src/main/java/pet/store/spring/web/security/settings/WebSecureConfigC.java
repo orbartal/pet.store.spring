@@ -1,6 +1,7 @@
 package pet.store.spring.web.security.settings;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,8 +16,8 @@ import pet.store.spring.web.security.filters.interfaces.FiltersConfigI;
  * @author Or Bartal
  */
 
-@EnableGlobalMethodSecurity
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 class WebSecureConfigC extends WebSecurityConfigurerAdapter {
 	
@@ -31,8 +32,13 @@ class WebSecureConfigC extends WebSecurityConfigurerAdapter {
     protected void configure (HttpSecurity http) throws Exception {
     	http.csrf().disable(); //TODO: add cors
         //Config which pages are available for anonymous users and which require authentication.
-        http.httpBasic().and().authorizeRequests().antMatchers(getPublicResources()).permitAll();
-        http.httpBasic().and().authorizeRequests().anyRequest().authenticated();
+        http.httpBasic().and().authorizeRequests().
+        	antMatchers(getPublicResources()).permitAll()
+        	.antMatchers(HttpMethod.POST, "/pet/**").hasAuthority("admin")
+        	.antMatchers(HttpMethod.PUT, "/pet/**").hasAuthority("admin")
+        	.antMatchers(HttpMethod.DELETE, "/pet/**").hasAuthority("admin")
+        	.anyRequest().authenticated();
+        
         m_filtersConfig.setFilters(http.httpBasic().and());
     }
     

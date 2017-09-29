@@ -24,25 +24,25 @@ public class TokenAuthenticationProviderC implements AuthenticationProvider {
 	}
 	
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		String strJwt =  getJwt(authentication);
+		String strJwt =  getToken(authentication);
 		return getAuth(strJwt);
 	}
 	
-	protected String getJwt(Authentication authentication) throws AuthenticationException{
+	protected String getToken(Authentication authentication) throws AuthenticationException{
     	Object credentials = authentication.getCredentials();
-		if ((credentials==null) || (!(credentials instanceof  String))) {
-			throw new AuthenticationCredentialsNotFoundException ("credentials==null");
+		if ((credentials==null) || (credentials.equals("null"))) {
+			throw new AuthenticationCredentialsNotFoundException ("User have no credentials. Please login.");
 		}else if (!(credentials instanceof  String)) {
 			throw new BadCredentialsException (credentials+"");
 		}
 		return (String)credentials;
 	}
 	
-	protected Authentication getAuth(String strJwt) {
+	protected Authentication getAuth(String strToken) {
     	try {
-    		return m_tokenService.getAuth(strJwt);
+    		return m_tokenService.getAuth(strToken);
 		} catch (Exception e) {
-			throw new AuthenticationServiceException (strJwt, e);
+			throw new AuthenticationServiceException (strToken, e);
 		}
 	}
 }

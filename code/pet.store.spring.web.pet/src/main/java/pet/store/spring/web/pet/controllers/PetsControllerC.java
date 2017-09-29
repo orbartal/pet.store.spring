@@ -1,9 +1,7 @@
 package pet.store.spring.web.pet.controllers;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +18,6 @@ import pet.store.spring.web.pet.exceptions.InvalidPetIdInputException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
-@CrossOrigin //TODO: remove
 @RestController
 @RequestMapping("/pet")
 public class PetsControllerC {
