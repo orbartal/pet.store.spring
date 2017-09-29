@@ -19,5 +19,6 @@ public class FiltersConfigC implements FiltersConfigI {
 
 	public void setFilters(HttpSecurity config) throws Exception {
 		 config.addFilterBefore (m_authenticationFilter,  UsernamePasswordAuthenticationFilter.class);
+		 config.addFilter(new CorsFilterC ());
 	}
 }
