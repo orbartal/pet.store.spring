@@ -3,25 +3,25 @@ package pet.store.spring.internal.model.classes;
 import pet.store.spring.internal.model.interfaces.PetLogicEntityI;
 
 public class PetLogicEntityC implements PetLogicEntityI {
-	protected int id;
+	protected long id;
 	protected String name;
 	protected String status;
 	
 	public PetLogicEntityC() {}
 	
-	public PetLogicEntityC(int id, String name, String status) {
+	public PetLogicEntityC(long id, String name, String status) {
 		this.id = id;
 		this.name = name;
 		this.status = status;
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

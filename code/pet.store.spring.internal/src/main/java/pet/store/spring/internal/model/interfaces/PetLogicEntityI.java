@@ -2,22 +2,16 @@ package pet.store.spring.internal.model.interfaces;
 
 public interface PetLogicEntityI {
 
-	//	@Override
-	int getId();
+	public long getId();
 
-	//	@Override
-	void setId(int id);
+	public void setId(long id);
 
-	//	@Override
-	String getName();
+	public String getName();
 
-	//	@Override
-	void setName(String name);
+	public void setName(String name);
 
-	//	@Override
-	String getStatus();
+	public String getStatus();
 
-	//	@Override
-	void setStatus(String status);
+	public void setStatus(String status);
 
 }

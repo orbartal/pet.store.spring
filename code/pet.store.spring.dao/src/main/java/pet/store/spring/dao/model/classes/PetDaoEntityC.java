@@ -6,8 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import pet.store.spring.dao.model.interfaces.PetDaoEntityI;
+
 
 @Entity
 @Table(name = "pets") 
@@ -16,7 +16,7 @@ public class PetDaoEntityC implements PetDaoEntityI {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name = "id")
-	protected int id;
+	protected long id;
 	
 	@Column (name = "name")
 	protected String name;
@@ -26,19 +26,19 @@ public class PetDaoEntityC implements PetDaoEntityI {
 	
 	public PetDaoEntityC() {}
 	
-	public PetDaoEntityC(int id, String name, String status) {
+	public PetDaoEntityC(long id, String name, String status) {
 		this.id = id;
 		this.name = name;
 		this.status = status;
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

@@ -18,8 +18,8 @@ import pet.store.spring.web.swagger.controllers.interfaces.HelloWorldControllerI
 
 /**
  Test the HelloWorld api over entire system including:
- filters, spring config, controllers and services.
- Focuse on security testing.
+ filters, spring configuration controllers and services.
+ Focus on security testing.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

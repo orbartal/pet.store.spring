@@ -37,9 +37,9 @@ public class PetsControllerC {
     })
 	@RequestMapping(value = PetsControllerI.READ_BY_ID_URL_PATH, method = RequestMethod.GET, produces = "application/json")
 	public PetUiEntityI read(
-			@ApiParam(value = "ID of pet to return", required = true) @PathVariable String id
+			@ApiParam(value = "ID of pet to return", required = true) @PathVariable String petId 
 			) throws Exception {
-		return m_petsWebService.read(id);
+		return m_petsWebService.read(petId);
 	}
 	 
 	@ApiOperation(value = "Add a new pet to the store")
@@ -63,9 +63,9 @@ public class PetsControllerC {
     })
 	@RequestMapping(value = PetsControllerI.DELETE_BY_ID_URL_PATH, method = RequestMethod.DELETE, produces = "application/json")
 	public void delete(
-			@ApiParam(value = "Pet id to delete", required = true) @PathVariable String id
+			@ApiParam(value = "Pet id to delete", required = true) @PathVariable String petId
 			) throws Exception {
-		m_petsWebService.delete(id);
+		m_petsWebService.delete(petId);
 	}
 	
 	///////////////////////////////////////////////////////////////////////

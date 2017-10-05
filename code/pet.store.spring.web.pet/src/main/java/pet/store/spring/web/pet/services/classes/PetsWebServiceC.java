@@ -33,7 +33,7 @@ public class PetsWebServiceC implements PetsWebServiceI {
 
 	@Override
 	public PetUiEntityI read (String strId) throws Exception {
-		int nId = parseId(strId);
+		long nId = parseId(strId);
 		try {
 			PetLogicEntityI logicPet = m_petsLogicService.read(nId);
 			PetUiEntityI uiPet = m_conversionWebService.convert(logicPet, PetUiEntityI.class);
@@ -46,7 +46,7 @@ public class PetsWebServiceC implements PetsWebServiceI {
 
 	@Override
 	public void delete (String strId) throws Exception {
-		int nId =  parseId(strId);
+		long nId =  parseId(strId);
 		try {
 			m_petsLogicService.delete(nId);
 		}catch (Exception e) {
@@ -54,12 +54,9 @@ public class PetsWebServiceC implements PetsWebServiceI {
 		}
 	}
 	
-	protected int parseId(String strId) throws InvalidPetIdInputException {
+	protected long parseId(String strId) throws InvalidPetIdInputException {
 		try {
-			int nId = Integer.parseInt(strId);
-			if (nId<0) {
-				throw new Exception ("id<0");
-			}
+			long nId = Long.parseUnsignedLong(strId);
 			return nId;
 		}catch(Exception e) {
 			throw new InvalidPetIdInputException (strId, e);

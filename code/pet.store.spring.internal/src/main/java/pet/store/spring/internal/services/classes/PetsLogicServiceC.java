@@ -20,12 +20,12 @@ public class PetsLogicServiceC implements PetsLogicServiceI {
 	}
 
 	@Override
-	public PetLogicEntityI read(int id) throws Exception {
+	public PetLogicEntityI read(long id) throws Exception {
 		return m_petsDaoService.read(id);
 	}
 
 	@Override
-	public void delete(int id) throws Exception {
+	public void delete(long id) throws Exception {
 		m_petsDaoService.delete(id);
 	}
 
