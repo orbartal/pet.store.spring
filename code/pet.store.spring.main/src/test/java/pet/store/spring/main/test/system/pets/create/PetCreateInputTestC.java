@@ -41,19 +41,19 @@ public class PetCreateInputTestC {
 	@Before
     public void setUp() {
 	}
-/*
+
 	@Test
 	public void createValidPetByAdmin() {
 		PetUiEntityI pet = new PetUiEntityC (1, "dog1", "free");
 		ResponseEntity<String> response = createPetInServer (TokensExamplesI.ADMIN, pet);
 		assertThat(org.springframework.http.HttpStatus.OK.equals(response.getStatusCode()));
 	}
-*/	
+
 	@Test
 	public void createInValidPetByAdmin() {
 		PetUiEntityI pet = new PetUiEntityC (-1, "dog1", "free");
 		ResponseEntity<String> response = createPetInServer (TokensExamplesI.ADMIN, pet);
-		assertThat(org.springframework.http.HttpStatus.OK.equals(response.getStatusCode()));
+		assertThat(org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED.equals(response.getStatusCode()));
 	}
 	
 	protected ResponseEntity<String> createPetInServer (String token, PetUiEntityI pet) {

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pet.store.spring.internal.model.interfaces.PetLogicEntityI;
 import pet.store.spring.internal.services.interfaces.PetsLogicServiceI;
 import pet.store.spring.web.pet.converters.interfaces.ConversionWebServiceI;
-import pet.store.spring.web.pet.exceptions.InvalidPetIdInputException;
 import pet.store.spring.web.pet.exceptions.InvalidPetInputException;
 import pet.store.spring.web.pet.exceptions.PetNotFoundException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
@@ -32,8 +31,7 @@ public class PetsWebServiceC implements PetsWebServiceI {
 	}
 
 	@Override
-	public PetUiEntityI read (String strId) throws Exception {
-		long nId = parseId(strId);
+	public PetUiEntityI read (long nId) throws Exception {
 		try {
 			PetLogicEntityI logicPet = m_petsLogicService.read(nId);
 			PetUiEntityI uiPet = m_conversionWebService.convert(logicPet, PetUiEntityI.class);
@@ -45,21 +43,11 @@ public class PetsWebServiceC implements PetsWebServiceI {
 	}
 
 	@Override
-	public void delete (String strId) throws Exception {
-		long nId =  parseId(strId);
+	public void delete (long nId) throws Exception {
 		try {
 			m_petsLogicService.delete(nId);
 		}catch (Exception e) {
 			throw new PetNotFoundException (e);
-		}
-	}
-	
-	protected long parseId(String strId) throws InvalidPetIdInputException {
-		try {
-			long nId = Long.parseUnsignedLong(strId);
-			return nId;
-		}catch(Exception e) {
-			throw new InvalidPetIdInputException (strId, e);
 		}
 	}
 }

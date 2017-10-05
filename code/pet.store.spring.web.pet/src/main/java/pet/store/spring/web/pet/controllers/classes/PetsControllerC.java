@@ -1,8 +1,14 @@
 package pet.store.spring.web.pet.controllers.classes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Min;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +20,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import pet.store.spring.web.pet.Validators.classes.PetValidator;
 import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
 import pet.store.spring.web.pet.exceptions.InvalidPetIdInputException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
+@Validated
 @RestController
 @RequestMapping(PetsControllerI.URL_PATH)
 public class PetsControllerC {
@@ -29,6 +37,11 @@ public class PetsControllerC {
 		m_petsWebService = petsWebAdapter;
 	}
 	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+	    binder.addValidators(new PetValidator ());
+	}
+	
 	@ApiOperation(value = "Find pet by ID")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Successful operation", response = PetUiEntityI.class),
@@ -37,7 +50,7 @@ public class PetsControllerC {
     })
 	@RequestMapping(value = PetsControllerI.READ_BY_ID_URL_PATH, method = RequestMethod.GET, produces = "application/json")
 	public PetUiEntityI read(
-			@ApiParam(value = "ID of pet to return", required = true) @PathVariable String petId 
+			@ApiParam(value = "ID of pet to return", required = true)  @Min(0) @Validated @PathVariable Long petId
 			) throws Exception {
 		return m_petsWebService.read(petId);
 	}
@@ -50,7 +63,7 @@ public class PetsControllerC {
 	@RequestMapping(value = PetsControllerI.CREATE_URL_PATH, method = RequestMethod.POST, produces = "application/json")
 	public void create(
 			@ApiParam(value = "Pet object that needs to be added to the store", required = true) 
-			@RequestBody PetUiEntityI pet
+			@Validated @RequestBody PetUiEntityI pet
 			) throws Exception {
 		m_petsWebService.create(pet);
 	}
@@ -63,19 +76,36 @@ public class PetsControllerC {
     })
 	@RequestMapping(value = PetsControllerI.DELETE_BY_ID_URL_PATH, method = RequestMethod.DELETE, produces = "application/json")
 	public void delete(
-			@ApiParam(value = "Pet id to delete", required = true) @PathVariable String petId
+			@ApiParam(value = "Pet id to delete", required = true) @Min(0) @Validated @PathVariable Long petId
 			) throws Exception {
 		m_petsWebService.delete(petId);
 	}
 	
-	///////////////////////////////////////////////////////////////////////
-	// Handle spring exception on convert json in request to pet object //
-	/////////////////////////////////////////////////////////////////////
+	//////////////////////////////
+	// Handle server exception //
+	////////////////////////////
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
-	public void handleMethodArgumentTypeMismatchException(HttpServletRequest request, MethodArgumentTypeMismatchException e) {}
+	public void handle(HttpServletRequest request, MethodArgumentTypeMismatchException e) {
+		e.toString();
+	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
-	public void handleHttpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException e) {}
+	public void handle(HttpServletRequest request, HttpMessageNotReadableException e) {
+		e.toString();
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
+	public void handle(HttpServletRequest request, MethodArgumentNotValidException e) {
+		e.toString();
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	@ResponseStatus(value=org.springframework.http.HttpStatus.BAD_REQUEST, reason="Invalid ID supplied")  // 400
+	public void handle(HttpServletRequest request, ConstraintViolationException e) {
+		e.toString();
+	}
+
 }
