@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,21 @@ public class TokenByPasswordSecurityServiceC implements TokenByPasswordSecurityS
 
 	@Override
 	public String getToken(UsernamePasswordAuthenticationToken auth) throws Exception {
+		validate (auth);
 		Map<String, String> mapUserData = authToMap (auth); 
 		Gson gson = new GsonBuilder().create();
 		String strJson = gson.toJson(mapUserData);
 		return strJson;
+	}
+
+	private void validate(UsernamePasswordAuthenticationToken auth) throws Exception {
+		String strPassword = (String) auth.getCredentials();
+		String strUserName = auth.getName();
+		boolean isAdmin = strUserName.equalsIgnoreCase("admin") && strPassword.equalsIgnoreCase("admin");
+		boolean isLimit = strUserName.equalsIgnoreCase("limit") && strPassword.equalsIgnoreCase("limit");
+		if (!isAdmin && !isLimit) {
+			throw new Exception ();
+		}
 	}
 
 	protected Map<String, String> authToMap(UsernamePasswordAuthenticationToken auth) {
