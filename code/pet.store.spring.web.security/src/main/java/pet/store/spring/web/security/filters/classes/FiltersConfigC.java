@@ -4,7 +4,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
-
 import pet.store.spring.web.security.converters.interfaces.ConversionServiceSecurityI;
 import pet.store.spring.web.security.filters.interfaces.AuthenticationFilterI;
 import pet.store.spring.web.security.filters.interfaces.FiltersConfigI;
@@ -18,7 +17,9 @@ public class FiltersConfigC implements FiltersConfigI {
 	}
 
 	public void setFilters(HttpSecurity config) throws Exception {
-		 config.addFilterBefore (m_authenticationFilter,  UsernamePasswordAuthenticationFilter.class);
+ 		 config.addFilterBefore(new ExceptionHandlerFilter (), UsernamePasswordAuthenticationFilter.class);
+ 		 config.addFilterBefore (m_authenticationFilter,  UsernamePasswordAuthenticationFilter.class);
 		 config.addFilter(new CorsFilterC ());
+		 config.toString();	 
 	}
 }

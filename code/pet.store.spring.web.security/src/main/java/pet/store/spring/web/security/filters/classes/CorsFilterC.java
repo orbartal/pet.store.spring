@@ -5,9 +5,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 public class CorsFilterC extends CorsFilter {
+	
 	public CorsFilterC () {
 		super(getSource());
-		//this.setOrder(Ordered.HIGHEST_PRECEDENCE);
 	}
 
 	protected static UrlBasedCorsConfigurationSource getSource () {

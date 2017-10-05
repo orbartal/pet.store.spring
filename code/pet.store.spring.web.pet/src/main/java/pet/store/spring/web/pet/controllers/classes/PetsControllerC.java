@@ -1,4 +1,4 @@
-package pet.store.spring.web.pet.controllers;
+package pet.store.spring.web.pet.controllers.classes;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,12 +14,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
 import pet.store.spring.web.pet.exceptions.InvalidPetIdInputException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
 @RestController
-@RequestMapping("/pet")
+@RequestMapping(PetsControllerI.URL_PATH)
 public class PetsControllerC {
 	
 	protected PetsWebServiceI m_petsWebService;
@@ -34,7 +35,7 @@ public class PetsControllerC {
        	@ApiResponse(code = 400, message = "Invalid Id supplied", response = InvalidPetIdInputException.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Exception.class)
     })
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = PetsControllerI.READ_BY_ID_URL_PATH, method = RequestMethod.GET, produces = "application/json")
 	public PetUiEntityI read(
 			@ApiParam(value = "ID of pet to return", required = true) @PathVariable String id
 			) throws Exception {
@@ -46,7 +47,7 @@ public class PetsControllerC {
         @ApiResponse(code = 200, message = "Successful operation"),
         @ApiResponse(code = 405, message = "Invalid input", response = Exception.class)
     })
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = PetsControllerI.CREATE_URL_PATH, method = RequestMethod.POST, produces = "application/json")
 	public void create(
 			@ApiParam(value = "Pet object that needs to be added to the store", required = true) 
 			@RequestBody PetUiEntityI pet
@@ -60,7 +61,7 @@ public class PetsControllerC {
        	@ApiResponse(code = 400, message = "Invalid ID supplied", response = InvalidPetIdInputException.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Exception.class)
     })
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
+	@RequestMapping(value = PetsControllerI.DELETE_BY_ID_URL_PATH, method = RequestMethod.DELETE, produces = "application/json")
 	public void delete(
 			@ApiParam(value = "Pet id to delete", required = true) @PathVariable String id
 			) throws Exception {
@@ -72,7 +73,7 @@ public class PetsControllerC {
 	/////////////////////////////////////////////////////////////////////
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
-	public void handleMessageNotReadableException(HttpServletRequest request, MethodArgumentTypeMismatchException e) {}
+	public void handleMethodArgumentTypeMismatchException(HttpServletRequest request, MethodArgumentTypeMismatchException e) {}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseStatus(value=org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED, reason="The given pet data is invalid")  // 405
