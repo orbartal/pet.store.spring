@@ -1,4 +1,4 @@
-package pet.store.spring.web.swagger.controllers;
+package pet.store.spring.web.swagger.controllers.classes;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
