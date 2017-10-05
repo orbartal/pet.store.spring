@@ -17,7 +17,9 @@ public class PetValidator implements Validator {
 			err.reject("obj==null");
 		}
 		PetUiEntityI pet = (PetUiEntityI) obj;
-		if (pet.getId()<0) {
+		if (pet.getId() == null) {
+			err.reject("Pet id is null");
+		}else if (pet.getId()<0) {
 			err.reject("id<0");
 		}else if (pet.getName()==null || pet.getName().isEmpty()) {
 			err.reject("invalid pet name: " + pet.getName());

@@ -6,7 +6,7 @@ import pet.store.spring.web.pet.model.classes.PetUiEntityC;
 @JsonDeserialize(as = PetUiEntityC.class)
 public interface PetUiEntityI {
 
-	public long getId();
+	public Long getId();
 
 	public void setId(long id);
 

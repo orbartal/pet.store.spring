@@ -18,7 +18,7 @@ public class PetUiEntityC implements PetUiEntityI {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	
