@@ -1,4 +1,4 @@
-package pet.store.spring.web.pet.controllers;
+package pet.store.spring.web.pet.unit.controllers;
 
 import java.io.IOException;
 import org.springframework.http.MediaType;

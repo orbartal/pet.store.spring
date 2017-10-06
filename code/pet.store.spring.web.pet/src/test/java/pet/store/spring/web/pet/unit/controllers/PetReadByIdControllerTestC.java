@@ -1,9 +1,9 @@
-package pet.store.spring.web.pet.controllers;
+package pet.store.spring.web.pet.unit.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pet.store.spring.web.pet.controllers.classes.PetsControllerC;
 import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
 import pet.store.spring.web.pet.exceptions.PetNotFoundException;
+import pet.store.spring.web.pet.model.classes.PetUiEntityC;
+import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,13 +31,16 @@ import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 		PetsControllerC.class, 
 		PetsWebServiceI.class, 
 		JsonSpringUtilityC.class})
-public class PetDeleteByIdControllerTestC {
+public class PetReadByIdControllerTestC {
 	
 	@Mock
 	PetsWebServiceI m_petsWebService;
 
 	@InjectMocks
 	protected PetsControllerC m_controller;
+	
+	@InjectMocks
+	protected JsonSpringUtilityC m_JsonUtility;
 	
 	protected MockMvc m_mockMvc;
 	
@@ -50,30 +55,33 @@ public class PetDeleteByIdControllerTestC {
         assertThat(m_petsWebService).isNotNull();
         assertThat(m_controller).isNotNull();
         assertThat(m_mockMvc).isNotNull();
+        assertThat(m_JsonUtility).isNotNull();
     }
 	
 	@Test
     public void getPetByValidId() throws Exception {
-		long petId = 1;
-		doNothing().when(m_petsWebService).delete(petId);
-		ResultActions result = deletePet(petId);
+		PetUiEntityI pet = new PetUiEntityC (1, "dog1", "free");
+		String strPet =  m_JsonUtility.toJson(pet);
+		when(m_petsWebService.read(pet.getId())).thenReturn(pet);
+		ResultActions result = getPet(pet.getId());
 		result.andExpect(status().isOk());
+		result.andExpect(content().json(strPet));
     }
-
+	
 	@Test
     public void getPetByInValidId() throws Exception {
 		long petId = 1;
-		doThrow(new PetNotFoundException("")).when(m_petsWebService).delete(petId);;
-		ResultActions result = deletePet(petId);
+		when(m_petsWebService.read(petId)).thenThrow(new PetNotFoundException(""));
+		ResultActions result = getPet(petId);
 		result.andExpect(status().isNotFound());
     }
 	
-	protected ResultActions deletePet (long petId) throws Exception {
-		return m_mockMvc.perform(delete(getPetDeleteByIdUrl(petId)));
+	protected ResultActions getPet (long petId) throws Exception {
+		return m_mockMvc.perform(get(getPetReadByIdUrl(petId)));
 	}
 	
-    protected String getPetDeleteByIdUrl(long id) {
-    	String methodPath = PetsControllerI.DELETE_BY_ID_URL_PATH.replace("{petId}", id+"");
+    protected String getPetReadByIdUrl(long id) {
+    	String methodPath = PetsControllerI.READ_BY_ID_URL_PATH.replace("{petId}", id+"");
     	String strBase = "http://localhost:8080/";
     	return strBase + PetsControllerI.URL_PATH +methodPath;
     }
