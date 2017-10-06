@@ -1,4 +1,4 @@
-package pet.store.spring.web.swagger;
+package pet.store.spring.web.swagger.test.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

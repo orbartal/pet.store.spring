@@ -1,4 +1,4 @@
-package pet.store.spring.web.security;
+package pet.store.spring.web.security.test.unit.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;

@@ -1,4 +1,4 @@
-package pet.store.spring.web.pet.unit.services;
+package pet.store.spring.web.pet.test.unit.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
