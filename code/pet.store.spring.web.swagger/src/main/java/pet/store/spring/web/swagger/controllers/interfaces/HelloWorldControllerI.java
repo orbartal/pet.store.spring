@@ -5,5 +5,5 @@ public interface HelloWorldControllerI {
 	final static String HELLO_URL_PATH = "";
 	final static String HELLO_RESULT = "Hello from server";
 	
-	public String hello() throws Exception;
+	public Object hello() throws Exception;
 }

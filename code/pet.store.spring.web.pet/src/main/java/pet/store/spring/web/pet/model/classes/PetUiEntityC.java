@@ -1,8 +1,11 @@
 package pet.store.spring.web.pet.model.classes;
 
+import java.io.Serializable;
+
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 
-public class PetUiEntityC implements PetUiEntityI {
+public class PetUiEntityC implements PetUiEntityI, Serializable  {
+	private static final long serialVersionUID = 2304047613280144192L;
 	protected long id;
 	protected String name;
 	protected String status;
