@@ -6,7 +6,7 @@ import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 
 public class PetUiEntityC implements PetUiEntityI, Serializable  {
 	private static final long serialVersionUID = 2304047613280144192L;
-	protected long id;
+	protected Long id;
 	protected String name;
 	protected String status;
 	//category
@@ -48,5 +48,21 @@ public class PetUiEntityC implements PetUiEntityI, Serializable  {
 	@Override
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!this.getClass().isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final PetUiEntityC other = (PetUiEntityC) obj;
+	    boolean bId = (this.id == null)? (other.id == null) : (this.id.equals(other.id));
+	    boolean bName = (this.name == null)? (other.name == null) : (this.name.equals(other.name));
+	    boolean bStatus = (this.status == null)? (other.status == null) : (this.status.equals(other.status));
+	    return (bId && bName && bStatus);
 	}
 }

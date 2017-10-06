@@ -22,6 +22,7 @@ import pet.store.spring.web.pet.controllers.classes.PetsControllerC;
 import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
 import pet.store.spring.web.pet.exceptions.PetNotFoundException;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
+import pet.store.spring.web.pet.utils.JsonSpringUtilityC;
 
 @RunWith(MockitoJUnitRunner.class)
 @AutoConfigureMockMvc
@@ -29,7 +30,7 @@ import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 		PetsControllerC.class, 
 		PetsWebServiceI.class, 
 		JsonSpringUtilityC.class})
-public class PetDeleteByIdControllerTestC {
+public class PetDeleteByIdControllerUnitTestC {
 	
 	@Mock
 	PetsWebServiceI m_petsWebService;

@@ -1,9 +1,9 @@
 package pet.store.spring.web.pet.unit.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -15,16 +15,16 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pet.store.spring.web.pet.controllers.classes.PetsControllerC;
 import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
-import pet.store.spring.web.pet.exceptions.InvalidPetInputException;
+import pet.store.spring.web.pet.exceptions.PetNotFoundException;
 import pet.store.spring.web.pet.model.classes.PetUiEntityC;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
+import pet.store.spring.web.pet.utils.JsonSpringUtilityC;
 
 @RunWith(MockitoJUnitRunner.class)
 @AutoConfigureMockMvc
@@ -32,7 +32,7 @@ import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 		PetsControllerC.class, 
 		PetsWebServiceI.class, 
 		JsonSpringUtilityC.class})
-public class PetCreateControllerTestC {
+public class PetReadByIdControllerUnitTestC {
 	
 	@Mock
 	PetsWebServiceI m_petsWebService;
@@ -60,29 +60,29 @@ public class PetCreateControllerTestC {
     }
 	
 	@Test
-    public void createValidPet() throws Exception {
+    public void getPetByValidId() throws Exception {
 		PetUiEntityI pet = new PetUiEntityC (1, "dog1", "free");
-		doNothing().when(m_petsWebService).create(pet);
-		ResultActions result = createPet(pet);
-		result.andExpect(status().isOk());
-    }
-
-	@Test
-    public void createInValidPet() throws Exception {
-		PetUiEntityI pet = new PetUiEntityC (-1, "dog1", "free");
-		doThrow(InvalidPetInputException.class).when(m_petsWebService).create(pet);
-		ResultActions result = createPet(pet);
-		result.andExpect(status().isMethodNotAllowed());
-    }
-
-	protected ResultActions createPet (PetUiEntityI pet) throws Exception {
 		String strPet =  m_JsonUtility.toJson(pet);
-		return m_mockMvc.perform(post(getCreatePetUrl()).
-				contentType(MediaType.APPLICATION_JSON).content(strPet));
+		when(m_petsWebService.read(pet.getId())).thenReturn(pet);
+		ResultActions result = getPet(pet.getId());
+		result.andExpect(status().isOk());
+		result.andExpect(content().json(strPet));
+    }
+	
+	@Test
+    public void getPetByInValidId() throws Exception {
+		long petId = 1;
+		when(m_petsWebService.read(petId)).thenThrow(new PetNotFoundException(""));
+		ResultActions result = getPet(petId);
+		result.andExpect(status().isNotFound());
+    }
+	
+	protected ResultActions getPet (long petId) throws Exception {
+		return m_mockMvc.perform(get(getPetReadByIdUrl(petId)));
 	}
 	
-    protected String getCreatePetUrl() {
-    	String methodPath = PetsControllerI.CREATE_URL_PATH;
+    protected String getPetReadByIdUrl(long id) {
+    	String methodPath = PetsControllerI.READ_BY_ID_URL_PATH.replace("{petId}", id+"");
     	String strBase = "http://localhost:8080/";
     	return strBase + PetsControllerI.URL_PATH +methodPath;
     }
