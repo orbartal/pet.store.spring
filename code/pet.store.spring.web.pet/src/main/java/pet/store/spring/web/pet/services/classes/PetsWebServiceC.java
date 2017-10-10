@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pet.store.spring.internal.model.interfaces.PetLogicEntityI;
 import pet.store.spring.internal.services.interfaces.PetsLogicServiceI;
 import pet.store.spring.web.pet.converters.interfaces.ConversionWebServiceI;
+import pet.store.spring.web.pet.exceptions.InvalidPetIdInputException;
 import pet.store.spring.web.pet.exceptions.InvalidPetInputException;
 import pet.store.spring.web.pet.exceptions.PetNotFoundException;
 import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
@@ -32,6 +33,9 @@ public class PetsWebServiceC implements PetsWebServiceI {
 
 	@Override
 	public PetUiEntityI read (long nId) throws Exception {
+		if (nId<0) {
+				throw new InvalidPetIdInputException (nId+"");
+		}
 		try {
 			PetLogicEntityI logicPet = m_petsLogicService.read(nId);
 			PetUiEntityI uiPet = m_conversionWebService.convert(logicPet, PetUiEntityI.class);
@@ -44,6 +48,9 @@ public class PetsWebServiceC implements PetsWebServiceI {
 
 	@Override
 	public void delete (long nId) throws Exception {
+		if (nId<0) {
+			throw new InvalidPetIdInputException (nId+"");
+		}
 		try {
 			m_petsLogicService.delete(nId);
 		}catch (Exception e) {

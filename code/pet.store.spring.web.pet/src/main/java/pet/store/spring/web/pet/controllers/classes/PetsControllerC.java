@@ -52,7 +52,9 @@ public class PetsControllerC {
 	public PetUiEntityI read(
 			@ApiParam(value = "ID of pet to return", required = true)  @Min(0) @Validated @PathVariable Long petId
 			) throws Exception {
-		return m_petsWebService.read(petId);
+		//return m_petsWebService.read(petId);
+		PetUiEntityI pet = m_petsWebService.read(petId);
+		return pet;
 	}
 	 
 	@ApiOperation(value = "Add a new pet to the store")
@@ -106,6 +108,11 @@ public class PetsControllerC {
 	@ResponseStatus(value=org.springframework.http.HttpStatus.BAD_REQUEST, reason="Invalid ID supplied")  // 400
 	public void handle(HttpServletRequest request, ConstraintViolationException e) {
 		e.toString();
+	}
+
+	@ExceptionHandler(Exception.class)
+	public void handle(HttpServletRequest request, Exception e) throws Exception {
+		throw e;
 	}
 
 }

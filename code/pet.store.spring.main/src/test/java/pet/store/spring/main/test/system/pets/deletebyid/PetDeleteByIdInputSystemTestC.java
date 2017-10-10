@@ -1,60 +1,36 @@
 package pet.store.spring.main.test.system.pets.deletebyid;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.junit.Before;
+import static org.junit.Assert.assertTrue;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import pet.store.spring.main.test.system.utiles.TokensExamplesI;
+import pet.store.spring.main.test.system.AbstractSystemTestC;
 import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
+import pet.store.spring.web.security.tokens.TokensExamplesI;
 
-/**
- Test the pets delete api over entire system including:
- filters, spring configuration, controllers and services.
- Focus on security testing.
- */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class PetDeleteByIdInputSystemTestC {
+/**System Test for the delete pet by id api.*/
+public class PetDeleteByIdInputSystemTestC extends AbstractSystemTestC {
 	
-	@Value("${local.server.port}")
-	protected int m_port;
-
-	@Autowired
-	protected TestRestTemplate m_restTemplate;
+	@Before
+	public void before() throws Exception {
+		setUrl (PetsControllerI.URL_PATH+PetsControllerI.DELETE_BY_ID_URL_PATH);
+	}
 	
-	protected String getBaseUrl() {
-		return "http://localhost:" + m_port + PetsControllerI.URL_PATH;
+	protected ResponseEntity<String> deletePetFromServer (String token, long id) {
+		String strUrl = getUrl().replace("{petId}", id+"");
+		return m_restTemplate.exchange (strUrl, HttpMethod.DELETE, getHttpEntity(token), String.class);
 	}
 
 	@Test
 	public void deleteInValidIdByAdmin() {
-		ResponseEntity<String> response = deletePetInServer (TokensExamplesI.ADMIN, -1);
-		assertThat(org.springframework.http.HttpStatus.BAD_REQUEST.equals(response.getStatusCode()));
+		ResponseEntity<String> response = deletePetFromServer (TokensExamplesI.STRING_TOKEN_ADMIN, (long)-1);
+		assertTrue(org.springframework.http.HttpStatus.BAD_REQUEST.equals(response.getStatusCode()));
 	}
 	
 	@Test
 	public void deleteValidIdByAdmin() {
-		ResponseEntity<String> response = deletePetInServer (TokensExamplesI.ADMIN, 1);
-		assertThat(org.springframework.http.HttpStatus.NOT_FOUND.equals(response.getStatusCode()));
-	}
-	
-	protected ResponseEntity<String> deletePetInServer (String token, long id) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", token);   
-		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
-		String strUrl = getBaseUrl()+PetsControllerI.DELETE_BY_ID_URL_PATH;
-		strUrl = strUrl.replace("{petId}", id+"");
-		ResponseEntity<String> response = m_restTemplate.exchange
-				(strUrl, HttpMethod.DELETE, httpEntity, String.class);
-		return response;
+		ResponseEntity<String> response = deletePetFromServer (TokensExamplesI.STRING_TOKEN_ADMIN, (long)1);
+		assertTrue(org.springframework.http.HttpStatus.NOT_FOUND.equals(response.getStatusCode()));
 	}
 }
