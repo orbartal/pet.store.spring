@@ -24,7 +24,7 @@ filters, spring configuration, controllers and services.
 @EnableJpaRepositories(basePackages = {"pet"})
 @EntityScan(basePackages = {"pet"})
 @ComponentScan(basePackages = {"pet"})
-public class AbstractSystemTestC {
+public abstract class AbstractSystemTestC {
 	
 	@Autowired
 	protected TestRestTemplate m_restTemplate;
