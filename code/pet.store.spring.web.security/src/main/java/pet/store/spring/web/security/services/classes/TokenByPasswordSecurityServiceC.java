@@ -50,7 +50,7 @@ public class TokenByPasswordSecurityServiceC implements TokenByPasswordSecurityS
 		if ("admin".equalsIgnoreCase(auth.getName())) {
 			mapUserData.put("role", "admin"); 
 		}else {
-			mapUserData.put("role", "limited");
+			mapUserData.put("role", "limit");
 		}
 		return mapUserData;
 	}

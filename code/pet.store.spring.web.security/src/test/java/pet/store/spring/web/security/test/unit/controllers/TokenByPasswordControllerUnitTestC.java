@@ -56,20 +56,20 @@ public class TokenByPasswordControllerUnitTestC {
     public void getTokenForAdmin() throws Exception {
 		String username = "admin";
 		String password = "admin";
-		when(m_tokensService.getToken(username, password)).thenReturn(TokensExamplesI.ADMIN);
+		when(m_tokensService.getToken(username, password)).thenReturn(TokensExamplesI.STRING_TOKEN_ADMIN);
 		ResultActions result = getTokenByPassword(username, password);
 		result.andExpect(status().isOk());
-		result.andExpect(content().string(TokensExamplesI.ADMIN));
+		result.andExpect(content().string(TokensExamplesI.STRING_TOKEN_ADMIN));
     }
 	
 	@Test
     public void getTokenForLimit() throws Exception {
 		String username = "limit";
 		String password = "pass";
-		when(m_tokensService.getToken(username, password)).thenReturn(TokensExamplesI.LIMITED);
+		when(m_tokensService.getToken(username, password)).thenReturn(TokensExamplesI.STRING_TOKEN_LIMITED);
 		ResultActions result = getTokenByPassword(username, password);
 		result.andExpect(status().isOk());
-		result.andExpect(content().string(TokensExamplesI.LIMITED));
+		result.andExpect(content().string(TokensExamplesI.STRING_TOKEN_LIMITED));
     }
 	
 	@Test
