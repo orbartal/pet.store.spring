@@ -2,3 +2,4 @@
 .settings
 .classpath
 target
+/code/pet.store.spring.main/src/main/resources
