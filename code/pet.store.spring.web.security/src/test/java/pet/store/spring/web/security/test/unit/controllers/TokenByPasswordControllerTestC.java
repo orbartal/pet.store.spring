@@ -51,26 +51,22 @@ public class TokenByPasswordControllerTestC {
         assertThat(m_controller).isNotNull();
         assertThat(m_mockMvc).isNotNull();
     }
-	
-	//@Test
+
+	@Test
     public void getTokenForAdmin() throws Exception {
 		String username = "admin";
 		String password = "admin";
-		UsernamePasswordAuthenticationToken auth = 
-				new UsernamePasswordAuthenticationToken (username, password, null);
-		when(m_tokensService.getToken(auth)).thenReturn(TokensExamplesI.ADMIN);
+		when(m_tokensService.getToken(username, password)).thenReturn(TokensExamplesI.ADMIN);
 		ResultActions result = getTokenByPassword(username, password);
 		result.andExpect(status().isOk());
 		result.andExpect(content().string(TokensExamplesI.ADMIN));
     }
 	
-	//@Test
+	@Test
     public void getTokenForLimit() throws Exception {
 		String username = "limit";
 		String password = "pass";
-		UsernamePasswordAuthenticationToken auth = 
-				new UsernamePasswordAuthenticationToken (username, password, null);
-		when(m_tokensService.getToken(auth)).thenReturn(TokensExamplesI.LIMITED);
+		when(m_tokensService.getToken(username, password)).thenReturn(TokensExamplesI.LIMITED);
 		ResultActions result = getTokenByPassword(username, password);
 		result.andExpect(status().isOk());
 		result.andExpect(content().string(TokensExamplesI.LIMITED));
@@ -80,13 +76,11 @@ public class TokenByPasswordControllerTestC {
     public void getTokenForInvalid() throws Exception {
 		String username = "invalid";
 		String password = "pass";
-		UsernamePasswordAuthenticationToken auth = 
-				new UsernamePasswordAuthenticationToken (username, password, null);
-		when(m_tokensService.getToken(auth)).thenThrow(new Exception(""));
+		when(m_tokensService.getToken(username, password)).thenThrow(new Exception(""));
 		ResultActions result = getTokenByPassword(username, password);
 		result.andExpect(status().isBadRequest());
     }
-	
+
 	protected ResultActions getTokenByPassword (String name, String password) throws Exception {
 		String strUrl  = getTokenByPasswordUrl(name, password);
 		return m_mockMvc.perform(get(strUrl));
