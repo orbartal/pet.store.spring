@@ -29,7 +29,7 @@ import pet.store.spring.web.security.tokens.TokensExamplesI;
 @SpringBootTest(classes={
 		SecurityTokenControllerC.class, 
 		TokenByPasswordSecurityServiceI.class})
-public class TokenByPasswordControllerTestC {
+public class TokenByPasswordControllerUnitTestC {
 	
 	@Mock
 	TokenByPasswordSecurityServiceI m_tokensService;

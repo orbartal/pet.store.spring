@@ -30,7 +30,7 @@ import pet.store.spring.web.security.controllers.interfaces.SecurityTokenControl
 @EnableJpaRepositories(basePackages = {"pet"})
 @EntityScan(basePackages = {"pet"})
 @ComponentScan(basePackages = {"pet"})
-public class TokenByPasswordTestC {
+public class TokenByPasswordSystemTestC {
 
 	@Value("${local.server.port}")
 	private int m_port;

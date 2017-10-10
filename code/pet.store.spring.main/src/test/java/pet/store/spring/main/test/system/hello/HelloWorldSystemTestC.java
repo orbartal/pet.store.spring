@@ -23,7 +23,7 @@ import pet.store.spring.web.swagger.controllers.interfaces.HelloWorldControllerI
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HelloWorldTestC {
+public class HelloWorldSystemTestC {
 	
 	@Value("${local.server.port}")
 	private int m_port;

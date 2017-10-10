@@ -25,7 +25,7 @@ import pet.store.spring.web.swagger.controllers.interfaces.HelloWorldControllerI
 @SpringBootTest(classes={HelloWorldControllerC.class})
 @AutoConfigureMockMvc
 */
-public class HelloWorldControllerTestC {
+public class HelloWorldControllerUnitTestC {
 	
 	@InjectMocks
 	protected HelloWorldControllerC m_controller;

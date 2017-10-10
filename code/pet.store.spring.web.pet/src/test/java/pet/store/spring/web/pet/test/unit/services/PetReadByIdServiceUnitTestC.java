@@ -20,7 +20,7 @@ import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
 import pet.store.spring.web.pet.services.classes.PetsWebServiceC;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PetReadByIdServiceTestC {
+public class PetReadByIdServiceUnitTestC {
 	
 	@Mock
 	PetsLogicServiceI m_petsLogicService;

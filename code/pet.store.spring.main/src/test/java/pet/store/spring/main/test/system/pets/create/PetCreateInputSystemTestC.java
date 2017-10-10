@@ -26,7 +26,7 @@ import pet.store.spring.web.pet.model.interfaces.PetUiEntityI;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class PetCreateInputTestC {
+public class PetCreateInputSystemTestC {
 	
 	@Value("${local.server.port}")
 	protected int m_port;
