@@ -1,56 +1,30 @@
 package pet.store.spring.web.pet.test.unit.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pet.store.spring.web.pet.controllers.classes.PetsControllerC;
 import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
 import pet.store.spring.web.pet.exceptions.PetNotFoundException;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 import pet.store.spring.web.pet.utils.JsonSpringUtilityC;
 
-@RunWith(MockitoJUnitRunner.class)
-@AutoConfigureMockMvc
 @SpringBootTest(classes={
 		PetsControllerC.class, 
 		PetsWebServiceI.class, 
 		JsonSpringUtilityC.class})
-public class PetDeleteByIdControllerUnitTestC {
+public class PetDeleteByIdControllerUnitTestC extends AbstractPetWebUnitTestC {
 	
-	@Mock
-	PetsWebServiceI m_petsWebService;
-
-	@InjectMocks
-	protected PetsControllerC m_controller;
-	
-	protected MockMvc m_mockMvc;
 	
   
 	@Before
-    public void setup() {
-        // this must be called for the @Mock annotations above to be processed
-        // and for the mock service to be injected into the controller under test.
-		MockitoAnnotations.initMocks(this);
-        m_mockMvc = MockMvcBuilders.standaloneSetup(m_controller).build();
-        
-        assertThat(m_petsWebService).isNotNull();
-        assertThat(m_controller).isNotNull();
-        assertThat(m_mockMvc).isNotNull();
+    public void setup() throws Exception {
+		super.init(PetsControllerI.DELETE_BY_ID_URL_PATH);
     }
 	
 	@Test
@@ -74,8 +48,6 @@ public class PetDeleteByIdControllerUnitTestC {
 	}
 	
     protected String getPetDeleteByIdUrl(long id) {
-    	String methodPath = PetsControllerI.DELETE_BY_ID_URL_PATH.replace("{petId}", id+"");
-    	String strBase = "http://localhost:8080/";
-    	return strBase + PetsControllerI.URL_PATH +methodPath;
+    	return m_url.replace("{petId}", id+"");
     }
 }
