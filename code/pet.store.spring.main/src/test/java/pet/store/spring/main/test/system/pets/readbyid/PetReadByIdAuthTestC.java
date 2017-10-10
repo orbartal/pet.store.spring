@@ -66,7 +66,7 @@ public class PetReadByIdAuthTestC {
 		headers.set("Authorization", token);   
 		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 		String strUrl = getBaseUrl()+PetsControllerI.READ_BY_ID_URL_PATH;
-		strUrl = strUrl.replace("{id}", m_id+"");
+		strUrl = strUrl.replace("{petId}", m_id+"");
 		ResponseEntity<String> response = m_restTemplate.exchange
 				(strUrl, HttpMethod.GET, httpEntity, String.class);
 		return response;

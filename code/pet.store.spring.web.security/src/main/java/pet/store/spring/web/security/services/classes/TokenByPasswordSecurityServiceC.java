@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -17,31 +16,14 @@ import pet.store.spring.web.security.services.interfaces.TokenByPasswordSecurity
 
 @Service("TokenByPasswordSecurityServiceC")
 public class TokenByPasswordSecurityServiceC implements TokenByPasswordSecurityServiceI {
-
+	
 	@Override
-	public Authentication getAuth(String strToken) throws Exception {
-		Map<String, String> map = stringToMap(strToken); 
-		Authentication auth = mapToAuth(map);
-		return auth;
+	public String getToken(String username, String password) throws Exception {
+		UsernamePasswordAuthenticationToken auth = 
+				new UsernamePasswordAuthenticationToken (username, password, null);
+		return getToken (auth);
 	}
 	
-	protected Map<String, String> stringToMap(String strToken) {
-		Gson gson = new GsonBuilder().create();
-		java.lang.reflect.Type typeOfHashMap = 
-				new TypeToken<Map<String, String>>() { }.getType();
-		Map<String, String> map = gson.fromJson(strToken, typeOfHashMap);
-		return map;
-	}
-	
-	protected Authentication mapToAuth(Map<String, String> map) {
-		String name = map.get("name");
-		String role = map.get("role");
-		String credentials = map.get("credentials");
-		List<GrantedAuthority> lstAuth = Arrays.asList(new SimpleGrantedAuthority(role));
-		Authentication auth = new UsernamePasswordAuthenticationToken (name, credentials, lstAuth);
-		return auth;
-	}
-
 	@Override
 	public String getToken(UsernamePasswordAuthenticationToken auth) throws Exception {
 		validate (auth);
@@ -71,5 +53,29 @@ public class TokenByPasswordSecurityServiceC implements TokenByPasswordSecurityS
 			mapUserData.put("role", "limited");
 		}
 		return mapUserData;
+	}
+	
+	@Override
+	public Authentication getAuth(String strToken) throws Exception {
+		Map<String, String> map = stringToMap(strToken); 
+		Authentication auth = mapToAuth(map);
+		return auth;
+	}
+	
+	protected Map<String, String> stringToMap(String strToken) {
+		Gson gson = new GsonBuilder().create();
+		java.lang.reflect.Type typeOfHashMap = 
+				new TypeToken<Map<String, String>>() { }.getType();
+		Map<String, String> map = gson.fromJson(strToken, typeOfHashMap);
+		return map;
+	}
+	
+	protected Authentication mapToAuth(Map<String, String> map) {
+		String name = map.get("name");
+		String role = map.get("role");
+		String credentials = map.get("credentials");
+		List<GrantedAuthority> lstAuth = Arrays.asList(new SimpleGrantedAuthority(role));
+		Authentication auth = new UsernamePasswordAuthenticationToken (name, credentials, lstAuth);
+		return auth;
 	}
 }
