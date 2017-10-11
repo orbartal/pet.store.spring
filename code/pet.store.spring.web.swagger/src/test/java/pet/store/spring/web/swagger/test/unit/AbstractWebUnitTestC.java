@@ -8,16 +8,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+/*
+ * https://thepracticaldeveloper.com/2017/07/31/guide-spring-boot-controller-tests/
+ */
 @RunWith(MockitoJUnitRunner.class)
 @AutoConfigureMockMvc
+
 public class AbstractWebUnitTestC {
 
 	protected MockMvc m_mockMvc;
 	protected String m_baseUrl;
 	protected Object m_controller;
-	
+
 	public void init (String strUrl, Object controller) throws Exception {
-		m_baseUrl = "http://localhost:8080/" + strUrl;
+		m_baseUrl = strUrl;
 		m_controller = controller;
     	MockitoAnnotations.initMocks(this);
     	m_mockMvc = MockMvcBuilders.standaloneSetup(m_controller).build();

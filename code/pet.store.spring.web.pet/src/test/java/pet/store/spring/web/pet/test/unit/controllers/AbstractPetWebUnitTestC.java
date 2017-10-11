@@ -33,7 +33,7 @@ public class AbstractPetWebUnitTestC {
 	protected MockMvc m_mockMvc;
 	
 	public void init (String strMethodUrl) throws Exception {
-		m_url = "http://localhost:8080/" + PetsControllerI.URL_PATH + strMethodUrl;
+		m_url = PetsControllerI.URL_PATH + strMethodUrl;
 		
 		MockitoAnnotations.initMocks(this);
         m_mockMvc = MockMvcBuilders.standaloneSetup(m_controller).build();
