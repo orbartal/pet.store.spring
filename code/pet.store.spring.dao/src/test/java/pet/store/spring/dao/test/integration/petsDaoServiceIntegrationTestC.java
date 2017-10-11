@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -18,11 +19,14 @@ import pet.store.spring.internal.services.interfaces.PetsDaoServiceI;
 
 /*
  * https://www.luckyryan.com/2013/06/25/integration-testing-spring-data-jpa/ 
+ * http://knes1.github.io/blog/2014/2014-08-18-concise-integration-tests-that-contain-mocks-in-spring-framework.html
+ * https://samerabdelkafi.wordpress.com/2014/05/29/spring-data-jpa/
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader=AnnotationConfigContextLoader.class)
 @Import(TestAdoConfig.class)
+@ActiveProfiles("test.ado")
 public class petsDaoServiceIntegrationTestC {
 
 	@Autowired

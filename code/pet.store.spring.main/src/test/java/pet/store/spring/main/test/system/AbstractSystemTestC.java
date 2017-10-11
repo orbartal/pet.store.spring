@@ -17,6 +17,8 @@ import pet.store.spring.web.swagger.services.interfaces.SitePropertiesServiceI;
 /**
 Test the server api over entire system including:
 filters, spring configuration, controllers and services.
+
+https://www.petrikainulainen.net/programming/testing/writing-clean-tests-it-starts-from-the-configuration/
 */
 
 @RunWith(SpringRunner.class)
