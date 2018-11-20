@@ -44,6 +44,14 @@
             <version>1.0.0</version>
         </dependency>
         
+       <dependency>
+            <groupId>orbartal</groupId>
+            <artifactId>pet.store.spring.web.security</artifactId>
+            <version>1.0.0</version>
+            <type>test-jar</type>
+  			<scope>test</scope>
+        </dependency>
+        
         <!--end pet.store.spring -->
 <!-- 
         <dependency>
