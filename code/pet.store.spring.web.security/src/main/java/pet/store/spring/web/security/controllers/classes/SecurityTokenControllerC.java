@@ -1,12 +1,14 @@
 package pet.store.spring.web.security.controllers.classes;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,9 +28,9 @@ public 	class SecurityTokenControllerC implements SecurityTokenControllerI {
 	}
 
 	@ApiOperation(value = "Get a security token based on user name and password")
-	@RequestMapping(method = RequestMethod.GET, value = SecurityTokenControllerI.TOKEN_BY_PASSWORD_URL_PATH, produces = "application/json")
-	public String get(	@ApiParam(value = "User name", required = true) @PathVariable  String username, 
-						@ApiParam(value = "User password", required = true) @PathVariable  String password) throws Exception {
+	@RequestMapping(method = RequestMethod.POST, value = "", produces = "application/json")
+	public String get(	@ApiParam(value = "User name", required = true) @RequestParam  String username, 
+						@ApiParam(value = "User password", required = true) @RequestParam  String password) throws Exception {
 		return m_tokenService.getToken(username, password);
 	}
 	
@@ -38,7 +40,7 @@ public 	class SecurityTokenControllerC implements SecurityTokenControllerI {
 		return "anonymous";
 	}
 
-//////////////////////////////
+	//////////////////////////////
 	// Handle server exception //
 	////////////////////////////
 	@ExceptionHandler(Exception.class)

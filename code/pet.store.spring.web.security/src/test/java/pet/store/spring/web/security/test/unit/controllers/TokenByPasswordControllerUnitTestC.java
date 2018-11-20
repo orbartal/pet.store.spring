@@ -2,9 +2,10 @@ package pet.store.spring.web.security.test.unit.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import pet.store.spring.web.security.controllers.classes.SecurityTokenControllerC;
 import pet.store.spring.web.security.controllers.interfaces.SecurityTokenControllerI;
 import pet.store.spring.web.security.services.interfaces.TokenByPasswordSecurityServiceI;
@@ -80,14 +82,10 @@ public class TokenByPasswordControllerUnitTestC {
     }
 
 	protected ResultActions getTokenByPassword (String name, String password) throws Exception {
-		String strUrl  = getTokenByPasswordUrl(name, password);
-		return m_mockMvc.perform(get(strUrl));
+		String strUrl  = SecurityTokenControllerI.URL_PATH;
+		return m_mockMvc.perform(post(strUrl)
+				.param("username", name)
+	            .param("password", password));
 	}
 	
-    protected String getTokenByPasswordUrl(String strUserName, String strUserPassword) {
-    	String methodPath = SecurityTokenControllerI.TOKEN_BY_PASSWORD_URL_PATH;
-    	methodPath = methodPath.replace("{username}", strUserName);
-    	methodPath = methodPath.replace("{password}", strUserPassword);
-    	return SecurityTokenControllerI.URL_PATH +methodPath;
-    }
 }
