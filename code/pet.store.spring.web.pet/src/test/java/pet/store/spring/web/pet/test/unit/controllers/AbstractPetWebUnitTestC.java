@@ -15,7 +15,7 @@ import pet.store.spring.web.pet.controllers.interfaces.PetsControllerI;
 import pet.store.spring.web.pet.services.interfaces.PetsWebServiceI;
 import pet.store.spring.web.pet.utils.JsonSpringUtilityC;
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 @AutoConfigureMockMvc
 public class AbstractPetWebUnitTestC {
 
