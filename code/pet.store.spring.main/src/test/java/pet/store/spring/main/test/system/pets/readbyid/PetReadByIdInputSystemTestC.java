@@ -30,7 +30,7 @@ public class PetReadByIdInputSystemTestC extends AbstractSystemTestC {
 	
 	@Test
 	public void readValidIdByAdmin() {
-		ResponseEntity<String> response = getPetFromServer (TokensExamplesI.STRING_TOKEN_ADMIN, (long)1);
+		ResponseEntity<String> response = getPetFromServer (TokensExamplesI.STRING_TOKEN_ADMIN, (long)100);
 		assertTrue(org.springframework.http.HttpStatus.NOT_FOUND.equals(response.getStatusCode()));
 	}
 

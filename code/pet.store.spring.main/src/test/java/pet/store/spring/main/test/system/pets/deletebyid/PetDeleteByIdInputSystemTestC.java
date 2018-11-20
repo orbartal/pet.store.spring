@@ -30,7 +30,7 @@ public class PetDeleteByIdInputSystemTestC extends AbstractSystemTestC {
 	
 	@Test
 	public void deleteValidIdByAdmin() {
-		ResponseEntity<String> response = deletePetFromServer (TokensExamplesI.STRING_TOKEN_ADMIN, (long)1);
+		ResponseEntity<String> response = deletePetFromServer (TokensExamplesI.STRING_TOKEN_ADMIN, (long)100);
 		assertTrue(org.springframework.http.HttpStatus.NOT_FOUND.equals(response.getStatusCode()));
 	}
 }
